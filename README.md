@@ -33,15 +33,21 @@ docker run --name=testsamlidp_idp \
 -p 8080:8080 \
 -e VIRTUAL_HOST=app.example.com \
 -e MDX_URL=https://mdx.eduid.hu/entities \
+-e SCOPE=false \
+-e CUSTOM_ATTRIBUTE=custom_id
 -d szabogyula/test-saml-idp
 ```
 
+If set the optional SCOPE env variable to true the shibmd:scope will be the VIRTUAL_HOST tag in the metadata.
+
+If set the optional CUSTOM_ATTRIBUTE env variable to any value ie: custom_id the saml attribute get a value: <attribute_name>_<virtual_host>_<uid>.
+
 There are two static users configured in the IdP with the following data:
 
-| UID | Username | Password | Group | Email |
-|---|---|---|---|---|
-| 1 | user1 | user1pass | group1 | user1@example.com |
-| 2 | user2 | user2pass | group2 | user2@example.com |
+| UID | Username | Password  | Group  | Email             | custom_id                   |
+|-----|----------|-----------|--------|-------------------|-----------------------------|
+| 1   | user1    | user1pass | group1 | user1@example.com | custom_id_app.exmaple.com_1 |
+| 2   | user2    | user2pass | group2 | user2@example.com | custom_id_app.exmaple.com_2 |
 
 However you can define your own users by mounting a configuration file:
 
