@@ -4,7 +4,8 @@ MAINTAINER Gyula Szabó <gyufi@szabocsalad.com>
 # Utilities
 RUN apt-get update && \
     apt-get -y install apt-transport-https git curl vim --no-install-recommends && \
-    rm -r /var/lib/apt/lists/*
+    rm -r /var/lib/apt/lists/* && \
+    docker-php-ext-install pdo pdo_mysql
 
 # SimpleSAMLphp
 ARG SIMPLESAMLPHP_VERSION=1.18.8
