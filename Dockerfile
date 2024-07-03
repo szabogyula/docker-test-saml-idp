@@ -1,15 +1,17 @@
-FROM php:7.1-apache
-MAINTAINER Gyula Szabó <gyufi@szabocsalad.com>
+FROM composer:2.1.9 AS composer
+
+FROM php:8.3-apache
+LABEL maintainer="Gyula Szabó <gyufi@szabocsalad.com>"
 
 # Utilities
 RUN apt-get update && \
-    apt-get -y install apt-transport-https git curl vim --no-install-recommends && \
+    apt-get -y install apt-transport-https git curl vim libldap2-dev --no-install-recommends && \
     rm -r /var/lib/apt/lists/* && \
-    docker-php-ext-install pdo pdo_mysql
+    docker-php-ext-install pdo pdo_mysql ldap
 
 # SimpleSAMLphp
-ARG SIMPLESAMLPHP_VERSION=1.18.8
-RUN curl -s -L -o /tmp/simplesamlphp.tar.gz https://github.com/simplesamlphp/simplesamlphp/releases/download/v$SIMPLESAMLPHP_VERSION/simplesamlphp-$SIMPLESAMLPHP_VERSION.tar.gz && \
+ARG SIMPLESAMLPHP_VERSION=2.2.2
+RUN curl -s -L -o /tmp/simplesamlphp.tar.gz https://github.com/simplesamlphp/simplesamlphp/releases/download/v$SIMPLESAMLPHP_VERSION/simplesamlphp-$SIMPLESAMLPHP_VERSION-full.tar.gz && \
     tar xzf /tmp/simplesamlphp.tar.gz -C /tmp && \
     rm -f /tmp/simplesamlphp.tar.gz  && \
     mv /tmp/simplesamlphp-* /var/www/simplesamlphp && \
@@ -30,3 +32,5 @@ RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf && \
 # Set work dir
 WORKDIR /var/www/simplesamlphp
 
+COPY --from=composer /usr/bin/composer /usr/bin/composer
+RUN composer install --no-dev

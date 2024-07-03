@@ -1,36 +1,23 @@
 # Docker Test SAML 2.0 Identity Provider (IdP)
 
-[![DockerHub Pulls](https://img.shields.io/docker/pulls/kristophjunge/test-saml-idp.svg)](https://hub.docker.com/r/kristophjunge/test-saml-idp/) [![DockerHub Stars](https://img.shields.io/docker/stars/kristophjunge/test-saml-idp.svg)](https://hub.docker.com/r/kristophjunge/test-saml-idp/) [![GitHub Stars](https://img.shields.io/github/stars/kristophjunge/docker-test-saml-idp.svg?label=github%20stars)](https://github.com/kristophjunge/docker-test-saml-idp) [![GitHub Forks](https://img.shields.io/github/forks/kristophjunge/docker-test-saml-idp.svg?label=github%20forks)](https://github.com/kristophjunge/docker-test-saml-idp) [![GitHub License](https://img.shields.io/github/license/kristophjunge/docker-test-saml-idp.svg)](https://github.com/kristophjunge/docker-test-saml-idp)
 
-![Seal of Approval](https://raw.githubusercontent.com/kristophjunge/docker-test-saml-idp/master/seal.jpg)
+![Seal of Approval](docs/seal.jpg)
 
 Docker container with a plug and play SAML 2.0 Identity Provider (IdP) for development and testing.
 
-Built with [SimpleSAMLphp](https://simplesamlphp.org). Based on official PHP7 Apache [images](https://hub.docker.com/_/php/).
+Built with [SimpleSAMLphp](https://simplesamlphp.org). Based on official PHP8.3 Apache [images](https://hub.docker.com/_/php/).
 
 **Warning!**: Do not use this container in production! The container is not configured for security and contains static user credentials and SSL keys.
 
 SimpleSAMLphp is logging to stdout on debug log level. Apache is logging error and access log to stdout.
 
-The contained version of SimpleSAMLphp is 1.15.2.
-
-
-## Supported Tags
-
-- `1.15` [(Dockerfile)](https://github.com/kristophjunge/docker-test-saml-idp/blob/1.15/Dockerfile)
-- `1.14` [(Dockerfile)](https://github.com/kristophjunge/docker-test-saml-idp/blob/1.14/Dockerfile)
-
-
-## Changelog
-
-See [CHANGELOG.md](https://github.com/kristophjunge/docker-test-saml-idp/blob/master/docs/CHANGELOG.md) for information about the latest changes.
-
+The contained version of SimpleSAMLphp is 2.2.2.
 
 ## Usage
 
 ```
 docker run --name=testsamlidp_idp \
--p 8080:8080 \
+-p 8080:80 \
 -e VIRTUAL_HOST=app.example.com \
 -e MDX_URL=https://mdx.eduid.hu/entities \
 -e SCOPE=false \
@@ -55,8 +42,12 @@ However you can define your own users by mounting a configuration file:
 -v /users.php:/var/www/simplesamlphp/config/authsources.php
 ```
 
-You can access the SimpleSAMLphp web interface of the IdP under `http://localhost:8080/simplesaml`. The admin password is `secret`.
+You can set user population by USERS_JSON environment variable. Take a look et [dockerker-compose.yml](docker-compose.yml).
 
+```json
+```
+
+You can access the SimpleSAMLphp web interface of the IdP under `http://localhost:8080/simplesaml`. The admin password is `secret`.
 
 ## Test the Identity Provider (IdP)
 

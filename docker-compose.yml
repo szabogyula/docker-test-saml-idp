@@ -3,9 +3,27 @@ services:
   testsamlidp_idp:
     build: .
     environment:
-      VIRTUAL_HOST: idp.example.com
+      VIRTUAL_HOST: localhost
       MDX_URL: https://mdx.eduid.hu/entities
       SIMPLESAMLPHP_ADMIN_PASSWORD: test
       SIMPLESAMLPHP_SECRET_SALT: salt
+      USERS_JSON: '{
+        "alice:alice": {
+          "uid": ["1"],
+          "eduPersonAffiliation": ["staff"],
+          "eduPersonScopedAffiliation": ["staff@localhost"],
+          "mail": "alice@localhost",
+          "eduPersonPrincipalName": "alice@localhost",
+          "displayName": "Alice Displayname"
+        },
+        "bob:bob": {
+          "uid": ["2"],
+          "eduPersonAffiliation": ["staff"],
+          "eduPersonScopedAffiliation": ["staff@localhost"],
+          "mail": "bob@localhost",
+          "eduPersonPrincipalName": "bob@localhost",
+          "displayName": "Bob Displayname"
+        }
+      }'
     ports:
     - "80:80"
