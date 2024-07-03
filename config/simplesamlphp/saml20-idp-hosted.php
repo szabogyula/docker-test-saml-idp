@@ -38,7 +38,10 @@ $metadata['__DYNAMIC:1__'] = [
         /* Enable the authproc filter below to automatically generated eduPersonTargetedID.
         20 => 'core:TargetedID',
         */
-        20 => 'core:TargetedID',
+        20 => [
+            'class' => 'core:TargetedID',
+            'identifyingAttribute' => 'eduPersonPrincipalName',
+        ],
 
         // Adopts language from attribute to use in UI
         30 => 'core:LanguageAdaptor',
@@ -46,11 +49,6 @@ $metadata['__DYNAMIC:1__'] = [
         /* Add a realm attribute from edupersonprincipalname
         40 => 'core:AttributeRealm',
          */
-        45 => array(
-            'class'         => 'core:StatisticsWithAttribute',
-            'attributename' => 'realm',
-            'type'          => 'saml20-idp-SSO',
-        ),
 
         49 => array(
             'class' => 'core:AttributeMap', 'name2oid'
