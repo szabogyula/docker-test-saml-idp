@@ -2,10 +2,10 @@
 $httpUtils = new \SimpleSAML\Utils\HTTP();
 
 $config = [
-    'baseurlpath' => 'simplesaml/',
+    'baseurlpath' => 'https://'.getenv('VIRTUAL_HOST').'/simplesaml/',
 
     'application' => [
-        'baseURL' => 'https://'.getenv('VIRTUAL_HOST'),
+        'baseURL' => 'https://'.getenv('VIRTUAL_HOST').'/',
     ],
 
     'cachedir' => '/tmp/cache/simplesamlphp',
