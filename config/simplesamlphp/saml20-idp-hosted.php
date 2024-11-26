@@ -1,5 +1,10 @@
 <?php
-$entityId = 'https://'. getenv('VIRTUAL_HOST') .'/simplesaml/saml2/idp/metadata.php';
+if (getenv('IDP_ENTITY_ID') != '') {
+    $entityId = getenv('IDP_ENTITY_ID');
+} else {
+    $entityId = 'https://'. getenv('VIRTUAL_HOST') .'/simplesaml/saml2/idp/metadata.php';
+}
+
 $metadata[$entityId] = [
     'host' => '__DEFAULT__',
 
@@ -21,7 +26,7 @@ $metadata[$entityId] = [
         30 => 'core:LanguageAdaptor',
         49 => array(
             'class' => 'core:AttributeMap', 'name2oid'
-        ), 
+        ),
         50 => 'core:AttributeLimit',
     ],
 ];

@@ -19,6 +19,7 @@ The contained version of SimpleSAMLphp is 2.2.2.
 docker run --name=testsamlidp_idp \
 -p 8080:80 \
 -e VIRTUAL_HOST=app.example.com \
+-e IDP_ENTITY_ID=http://example/idp \
 -e MDX_URL=https://mdx.eduid.hu/entities \
 -e SCOPE=false \
 -e CUSTOM_ATTRIBUTE=custom_id
@@ -26,6 +27,8 @@ docker run --name=testsamlidp_idp \
 ```
 
 If set the optional SCOPE env variable to true the shibmd:scope will be the VIRTUAL_HOST tag in the metadata.
+
+The IDP_ENTITY_ID is optional.
 
 If set the optional CUSTOM_ATTRIBUTE env variable to any value ie: custom_id the saml attribute get a value: <attribute_name>_<virtual_host>_<uid>.
 
