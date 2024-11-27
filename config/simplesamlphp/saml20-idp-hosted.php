@@ -19,14 +19,14 @@ $metadata[$entityId] = [
     'userid.attribute' => 'uid',
 
     'authproc' => [
-        20 => [
-            'class' => 'core:TargetedID',
-            'identifyingAttribute' => 'eduPersonPrincipalName',
-        ],
+        // 20 => [
+        //     'class' => 'core:TargetedID',
+        //     'identifyingAttribute' => 'eduPersonPrincipalName',
+        // ],
         30 => 'core:LanguageAdaptor',
-        49 => array(
+        49 => [
             'class' => 'core:AttributeMap', 'name2oid'
-        ),
+        ],
         50 => 'core:AttributeLimit',
     ],
 ];

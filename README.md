@@ -19,6 +19,8 @@ The contained version of SimpleSAMLphp is 2.2.2.
 docker run --name=testsamlidp_idp \
 -p 8080:80 \
 -e VIRTUAL_HOST=app.example.com \
+-e NO_HTTPS=true \
+-e PORT=8081 \
 -e IDP_ENTITY_ID=http://example/idp \
 -e MDX_URL=https://mdx.eduid.hu/entities \
 -e SCOPE=false \
@@ -28,7 +30,7 @@ docker run --name=testsamlidp_idp \
 
 If set the optional SCOPE env variable to true the shibmd:scope will be the VIRTUAL_HOST tag in the metadata.
 
-The IDP_ENTITY_ID is optional.
+The IDP_ENTITY_ID NO_HTTPS PORT METADATA_URL variables are optional.
 
 If set the optional CUSTOM_ATTRIBUTE env variable to any value ie: custom_id the saml attribute get a value: <attribute_name>_<virtual_host>_<uid>.
 
@@ -45,9 +47,27 @@ However you can define your own users by mounting a configuration file:
 -v /users.php:/var/www/simplesamlphp/config/authsources.php
 ```
 
-You can set user population by USERS_JSON environment variable. Take a look et [dockerker-compose.yml](docker-compose.yml).
+You can set user population by USERS_JSON environment variable. Take a look at [dockerker-compose.yml](docker-compose.yml).
 
 ```json
+{
+    "alice:alice": {
+        "uid": ["1"],
+        "eduPersonAffiliation": ["staff"],
+        "eduPersonScopedAffiliation": ["staff@localhost"],
+        "mail": "alice@localhost",
+        "eduPersonPrincipalName": "alice@localhost",
+        "displayName": "Alice Displayname"
+    },
+    "bob:bob": {
+        "uid": ["2"],
+        "eduPersonAffiliation": ["staff"],
+        "eduPersonScopedAffiliation": ["staff@localhost"],
+        "mail": "bob@localhost",
+        "eduPersonPrincipalName": "bob@localhost",
+        "displayName": "Bob Displayname"
+    }
+}
 ```
 
 You can access the SimpleSAMLphp web interface of the IdP under `http://localhost:8080/simplesaml`. The admin password is `secret`.

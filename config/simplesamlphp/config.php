@@ -1,11 +1,32 @@
 <?php
 $httpUtils = new \SimpleSAML\Utils\HTTP();
+$protocol = "https://";
+
+if (getenv('NO_HTTPS') == 'true') {
+    $protocol = "http://";
+}
+
+if (getenv('PORT') != '') {
+    $port = getenv('PORT');
+    $port = ':' . $port;
+} else {
+    $port = '';
+}
+
+$metadata_sources = [];
+$metadata_sources[] = ['type' => 'flatfile'];
+if (getenv('MDX_URL') != '') {
+    $metadata_sources[] = ['type' => 'mdx', 'server' => getenv('MDX_URL')];
+}
+if (getenv('METADATA_URL') != '') {
+    $metadata_sources[] = ['type' => 'xml', 'url' => getenv('METADATA_URL')];
+}
 
 $config = [
-    'baseurlpath' => 'https://'.getenv('VIRTUAL_HOST').'/simplesaml/',
+    'baseurlpath' => $protocol.getenv('VIRTUAL_HOST').$port.'/simplesaml/',
 
     'application' => [
-        'baseURL' => 'https://'.getenv('VIRTUAL_HOST').'/',
+        'baseURL' => '$protocol'.getenv('VIRTUAL_HOST').$port.'/',
     ],
 
     'cachedir' => '/tmp/cache/simplesamlphp',
@@ -102,10 +123,7 @@ $config = [
     'authproc.idp' => [],
     'authproc.sp' => [],
     'metadatadir' => 'metadata',
-    'metadata.sources' => [
-        ['type' => 'flatfile'],
-        ['type' => 'mdx', 'server' => getenv('MDX_URL')]
-    ],
+    'metadata.sources' => $metadata_sources,
     'metadata.sign.enable' => false,
     'metadata.sign.privatekey' => null,
     'metadata.sign.privatekey_pass' => null,
